@@ -1,11 +1,15 @@
-from graph import LinkedList
+from graph import Graph
+from linked_list import LinkedList
+from typing import List
 
 
 class Paths:
-    def __init__(self, graph, source, use_dfs):
+    def __init__(self, graph: Graph, source: int, use_dfs: bool):
         self.graph = graph
-        self.source = source
+        self.source = source  # the starting point in the maze
+        # Marks if the vertex is accessible from the source
         self.visited = [False for _ in range(graph.vertices)]
+        # The path to each vertex (edge_to[x] = y means that there's a path from y to x)
         self.edge_to = [-1 for _ in range(graph.vertices)]
 
         # Initialize self.visited and self.edge_to using either DFS or BFS
@@ -14,7 +18,7 @@ class Paths:
         else:
             self.bfs(self.source)
 
-    def dfs(self, v):
+    def dfs(self, v: int):
         # Find all the paths connected to the source in DFS order
         if self.visited[v]:
             return
@@ -28,15 +32,15 @@ class Paths:
             # curr.value connects to v
             if not self.visited[curr.value]:
                 self.edge_to[curr.value] = v
-                self.dfs(curr.value)
+                self.dfs(curr.value)  # recursion acts as the stack
 
             curr = curr.next
 
-    def bfs(self, s):
+    def bfs(self, source: int):
         # Find all the paths connected to the source in BFS order
         queue = LinkedList()  # use a linked list as a queue
-        queue.insert(s)
-        self.visited[s] = True
+        queue.insert(source)
+        self.visited[source] = True
 
         # Keep going until the queue is empty
         while queue.head is not None:
@@ -54,11 +58,11 @@ class Paths:
 
                 curr = curr.next
 
-    def has_path_to(self, v):
+    def has_path_to(self, v: int) -> bool:
         # A path is present if the vertex has been visited
         return self.visited[v]
 
-    def path_to(self, v):
+    def path_to(self, v: int) -> List:
         # Return a list of vertices that mark the path from the source to v
         if not self.has_path_to(v):
             return []
