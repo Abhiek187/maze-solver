@@ -1,3 +1,6 @@
+from graph import LinkedList
+
+
 class Paths:
     def __init__(self, graph, source, use_dfs):
         self.graph = graph
@@ -12,11 +15,32 @@ class Paths:
             self.bfs(self.source)
 
     def dfs(self, v):
-        # Find all the paths connected to the source
+        # Find all the paths connected to the source in DFS order
         if self.visited[v]:
             return
-        else:
-            self.visited[v] = True
+
+        self.visited[v] = True
+
+        # Iterate through the linked list in v's adjacency list
+        curr = self.graph.adj[v].head
+
+        while curr is not None:
+            # curr.value connects to v
+            if not self.visited[curr.value]:
+                self.edge_to[curr.value] = v
+                self.dfs(curr.value)
+
+            curr = curr.next
+
+    def bfs(self, s):
+        # Find all the paths connected to the source in BFS order
+        queue = LinkedList()  # use a linked list as a queue
+        queue.insert(s)
+        self.visited[s] = True
+
+        # Keep going until the queue is empty
+        while queue.head is not None:
+            v = queue.remove_head().value
 
             # Iterate through the linked list in v's adjacency list
             curr = self.graph.adj[v].head
@@ -24,13 +48,11 @@ class Paths:
             while curr is not None:
                 # curr.value connects to v
                 if not self.visited[curr.value]:
+                    queue.insert(curr.value)
+                    self.visited[curr.value] = True
                     self.edge_to[curr.value] = v
-                    self.dfs(curr.value)
 
                 curr = curr.next
-
-    def bfs(self, v):
-        pass
 
     def has_path_to(self, v):
         # A path is present if the vertex has been visited

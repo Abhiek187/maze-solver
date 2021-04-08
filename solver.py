@@ -27,8 +27,10 @@ def main():
             print(f"{v}: {maze.adj[v]}")
 
         # Create paths from the first vertex
-        path0 = Paths(maze, 0, use_dfs=True)
-        print(f"Path from 0 to 33: {path0.path_to(33)}")
+        path0_dfs = Paths(maze, 0, use_dfs=True)
+        path0_bfs = Paths(maze, 0, use_dfs=False)
+        print(f"Path from 0 to 33 (DFS): {path0_dfs.path_to(33)}")
+        print(f"Path from 0 to 33 (BFS): {path0_bfs.path_to(33)}")
 
 
 if __name__ == "__main__":

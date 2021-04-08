@@ -58,6 +58,15 @@ class LinkedList:
 
         return -1  # default value if the key doesn't exist
 
+    def remove_head(self):
+        # Replace the head with its next element
+        head = self.head
+
+        if head is not None:
+            self.head = self.head.next
+
+        return head
+
     def remove(self, value):
         # Remove the value from the linked list
         prev = None
