@@ -1,4 +1,5 @@
 from graph import Graph
+from paths import Paths
 from sys import argv
 
 
@@ -9,7 +10,9 @@ def main():
     assert len(argv) > 1, "No text file provided."
 
     with open(argv[1], "r") as file:
-        maze = Graph(34)  # 34 vertices in maze1
+        # The first line contains the total number of vertices in the graph
+        total_vs = int(file.readline().rstrip())
+        maze = Graph(total_vs)
 
         for line in file:
             # Remove the newline and split each number
@@ -22,6 +25,10 @@ def main():
         # Print the adjacency list
         for v in range(maze.vertices):
             print(f"{v}: {maze.adj[v]}")
+
+        # Create paths from the first vertex
+        path0 = Paths(maze, 0, use_dfs=True)
+        print(f"Path from 0 to 33: {path0.path_to(33)}")
 
 
 if __name__ == "__main__":
