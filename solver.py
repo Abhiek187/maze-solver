@@ -9,7 +9,6 @@ def main():
     # maze1 is based on the maze from slide 20 of the graphs slides
     # maze2 and maze3 are based on the mazes from
     # https://en.wikipedia.org/wiki/Maze-solving_algorithm
-    # maze4 is two disjoint loops
     assert len(argv) > 1, "No text file provided."
 
     with open(argv[1], "r") as file:
@@ -36,6 +35,7 @@ def main():
         path_bfs = Paths(maze, start, use_dfs=False)
         print(f"Path from {start} to {end} (DFS): {path_dfs.path_to(end)}")
         print(f"Path from {start} to {end} (BFS): {path_bfs.path_to(end)}")
+        print(f"The random mouse took the following path:\n{maze.random_mouse(start, end)}")
 
 
 if __name__ == "__main__":
