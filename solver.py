@@ -1,6 +1,7 @@
 from graph import Graph
 from paths import Paths
 from sys import argv
+from time import time
 
 
 def main():
@@ -27,17 +28,42 @@ def main():
             maze.connect(vs[0], vs[1])
 
         # Print the adjacency list
-        for v in range(maze.vertices):
-            print(f"{v}: {maze.adj[v]}")
+        # for v in range(maze.vertices):
+        #     print(f"{v}: {maze.adj[v]}")
 
         # Create paths from start to end
-        start = 0
-        end = total_vs - 1
-        path_dfs = Paths(maze, start, use_dfs=True)
-        path_bfs = Paths(maze, start, use_dfs=False)
-        print(f"Path from {start} to {end} (DFS): {path_dfs.path_to(end)}")
-        print(f"Path from {start} to {end} (BFS): {path_bfs.path_to(end)}")
-        print(f"The random mouse took the following path:\n{maze.random_mouse(start, end)}")
+        source = 0
+        goal = total_vs - 1
+        # Time each method of solving the maze
+        start = time()
+        path_dfs = Paths(maze, source, use_dfs=True).path_to(goal)
+        time_dfs = time() - start
+
+        start = time()
+        path_bfs = Paths(maze, source, use_dfs=False).path_to(goal)
+        time_bfs = time() - start
+
+        start = time()
+        path_mouse = maze.random_mouse(source, goal)
+        time_mouse = time() - start
+
+        # Print the results
+        print(f"Paths from {source} to {goal}\n")
+
+        print("DFS")
+        print(f"Path: {path_dfs}")
+        print(f"Length: {len(path_dfs)}")
+        print(f"Time: {time_dfs} s\n")
+
+        print("BFS")
+        print(f"Path: {path_bfs}")
+        print(f"Length: {len(path_bfs)}")
+        print(f"Time: {time_bfs} s\n")
+
+        print("Random Mouse")
+        print(f"Path: {path_mouse}")
+        print(f"Length: {len(path_mouse)}")
+        print(f"Time: {time_mouse} s")
 
 
 if __name__ == "__main__":

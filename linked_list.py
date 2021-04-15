@@ -1,10 +1,9 @@
-class Node:
-    def __init__(self, value):
-        self.value = value
-        self.next = None
-
-
 class LinkedList:
+    class Node:
+        def __init__(self, value):
+            self.value = value
+            self.next = None
+
     def __init__(self):
         self.head = None
 
@@ -29,7 +28,7 @@ class LinkedList:
 
         if curr is None:
             # Set the first node as the head of the linked list
-            self.head = Node(value)
+            self.head = self.Node(value)
             return True
 
         while True:
@@ -39,7 +38,7 @@ class LinkedList:
 
             if curr.next is None:
                 # Create a new node
-                curr.next = Node(value)
+                curr.next = self.Node(value)
                 return True
             else:
                 curr = curr.next
