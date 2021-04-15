@@ -1,7 +1,9 @@
 class LinkedList:
     class Node:
-        def __init__(self, value):
+        def __init__(self, value, weight, heuristic):
             self.value = value
+            self.weight = weight
+            self.end_weight = heuristic
             self.next = None
 
     def __init__(self):
@@ -22,13 +24,13 @@ class LinkedList:
 
         return output
 
-    def insert(self, value):
+    def insert(self, value, weight=0, heuristic=0):
         # Insert the value into the linked list and return true if a new node was created
         curr = self.head
 
         if curr is None:
             # Set the first node as the head of the linked list
-            self.head = self.Node(value)
+            self.head = self.Node(value, weight, heuristic)
             return True
 
         while True:
@@ -38,7 +40,7 @@ class LinkedList:
 
             if curr.next is None:
                 # Create a new node
-                curr.next = self.Node(value)
+                curr.next = self.Node(value, weight, heuristic)
                 return True
             else:
                 curr = curr.next
