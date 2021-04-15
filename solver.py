@@ -14,7 +14,9 @@ def main():
     with open(argv[1], "r") as file:
         # The first line contains the total number of vertices in the graph
         total_vs = int(file.readline().rstrip())
-        maze = Graph(total_vs)
+        # The second line contains the total number of edges in the graph
+        total_es = int(file.readline().rstrip())
+        maze = Graph(total_vs, total_es)
 
         for line in file:
             # Remove the newline and split each number
