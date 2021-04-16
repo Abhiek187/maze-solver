@@ -9,21 +9,6 @@ class LinkedList:
     def __init__(self):
         self.head = None
 
-    def __str__(self):
-        # Print the entire linked list
-        curr = self.head
-        output = ""
-
-        while curr is not None:
-            output += str(curr.value)
-
-            if curr.next is not None:
-                output += " -> "  # connect an arrow to the next node
-
-            curr = curr.next
-
-        return output
-
     def insert(self, value, weight=0, heuristic=0):
         # Insert the value into the linked list and return true if a new node was created
         curr = self.head
@@ -44,18 +29,6 @@ class LinkedList:
                 return True
             else:
                 curr = curr.next
-
-    def get_value(self, value):
-        # Search for the value in the linked list
-        curr = self.head
-
-        while curr is not None:
-            if curr.value == value:
-                return curr.value
-
-            curr = curr.next
-
-        return -1  # default value if the element doesn't exist
 
     def remove_head(self):
         # Replace the head with its next element

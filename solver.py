@@ -39,10 +39,6 @@ def main():
             # Connect the two vertices together
             maze.connect(v1, v2)
 
-    # Print the adjacency list
-    # for v in range(maze.vertices):
-    #     print(f"{v}: {maze.adj[v]}")
-
     # Time each method of solving the maze
     start = time()
     path_dfs = Paths(maze).dfs(maze.start).path_to(maze.goal)
