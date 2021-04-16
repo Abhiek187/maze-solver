@@ -46,6 +46,7 @@ def main():
     # Create paths from start to end
     source = 0
     goal = total_vs - 1
+
     # Time each method of solving the maze
     start = time()
     path_dfs = Paths(maze, source, use_dfs=True).path_to(goal)
@@ -58,6 +59,14 @@ def main():
     start = time()
     path_mouse = maze.random_mouse(source, goal)
     time_mouse = time() - start
+
+    start = time()
+    path_left_wall = maze.wall_follower(source, goal, left_wall=True)
+    time_left_wall = time() - start
+
+    start = time()
+    path_right_wall = maze.wall_follower(source, goal, left_wall=False)
+    time_right_wall = time() - start
 
     # Print the results
     print(f"Paths from {source} to {goal}\n")
@@ -75,7 +84,17 @@ def main():
     print("Random Mouse")
     print(f"Path: {path_mouse}")
     print(f"Length: {len(path_mouse)}")
-    print(f"Time: {time_mouse} s")
+    print(f"Time: {time_mouse} s\n")
+
+    print("Left Wall Follower")
+    print(f"Path: {path_left_wall}")
+    print(f"Length: {len(path_left_wall)}")
+    print(f"Time: {time_left_wall} s\n")
+
+    print("Right Wall Follower")
+    print(f"Path: {path_right_wall}")
+    print(f"Length: {len(path_right_wall)}")
+    print(f"Time: {time_right_wall} s")
 
 
 if __name__ == "__main__":

@@ -57,3 +57,76 @@ class Graph:
             path.append(v)
 
         return path
+
+    def wall_follower(self, start: int, goal: int, left_wall: bool) -> List:
+        # Keep following either the left or right wall until the goal is reached
+        path = [start]
+        v = start
+        curr_dir = "down"  # start by facing down at the start point
+
+        while v != goal:
+            """
+            Left Wall:
+            If facing down: prioritize right, down, left, up
+            If facing left: prioritize down, left, up, right
+            If facing up: prioritize left, up, right, down
+            If facing right: prioritize up, right, down, left
+            
+            Right Wall:
+            If facing down: prioritize left, down, right, up
+            If facing left: prioritize up, left, down, right
+            If facing up: prioritize right, up, left, down
+            If facing right: prioritize down, right, up, left
+            """
+            if left_wall:
+                if curr_dir == "down":
+                    priority_dirs = {"up": 0, "left": 1, "down": 2, "right": 3}
+                elif curr_dir == "left":
+                    priority_dirs = {"right": 0, "up": 1, "left": 2, "down": 3}
+                elif curr_dir == "up":
+                    priority_dirs = {"down": 0, "right": 1, "up": 2, "left": 3}
+                else:
+                    priority_dirs = {"left": 0, "down": 1, "right": 2, "up": 3}
+            else:
+                if curr_dir == "down":
+                    priority_dirs = {"up": 0, "right": 1, "down": 2, "left": 3}
+                elif curr_dir == "left":
+                    priority_dirs = {"right": 0, "down": 1, "left": 2, "up": 3}
+                elif curr_dir == "up":
+                    priority_dirs = {"down": 0, "left": 1, "up": 2, "right": 3}
+                else:
+                    priority_dirs = {"left": 0, "up": 1, "right": 2, "down": 3}
+
+            curr_point = self.points[v]
+            next_v = None
+            next_dir = curr_dir
+            max_priority = -1
+            choice = self.adj[v].head
+
+            while choice is not None:
+                # Check which direction a vertex is with respect to the current vertex
+                choice_point = self.points[choice.value]
+
+                if choice_point[0] < curr_point[0]:
+                    choice_dir = "left"
+                elif choice_point[0] > curr_point[0]:
+                    choice_dir = "right"
+                elif choice_point[1] < curr_point[1]:
+                    choice_dir = "up"
+                else:
+                    choice_dir = "down"
+
+                # Check if the direction is of higher priority
+                if priority_dirs[choice_dir] > max_priority:
+                    next_v = choice.value
+                    next_dir = choice_dir
+                    max_priority = priority_dirs[choice_dir]
+
+                choice = choice.next
+
+            # Head in the direction that follows the wall
+            v = next_v
+            path.append(next_v)
+            curr_dir = next_dir
+
+        return path
