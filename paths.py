@@ -57,8 +57,8 @@ class Paths:
 
         return self
 
-    def dijkstra(self):
-        # Find the shortest route through the maze
+    def dijkstra(self, with_heuristic: bool):
+        # Find the shortest route through the maze (with_heuristic = a*)
         dist_to = [inf for _ in range(self.graph.vertices)]
         dist_to[self.graph.start] = 0  # the distance to the source itself is 0
         self.visited[self.graph.start] = True
@@ -71,7 +71,12 @@ class Paths:
         while curr is not None:
             dist_to[curr.value] = curr.weight
             self.edge_to[curr.value] = curr_v
-            pq.insert([curr.value, curr.weight])
+
+            if with_heuristic:
+                pq.insert([curr.value, curr.weight + curr.end_weight])
+            else:
+                pq.insert([curr.value, curr.weight])
+
             curr = curr.next
 
         while not pq.is_empty():
@@ -91,7 +96,12 @@ class Paths:
                     if dist_to[curr_v] + curr.weight < dist_to[curr.value]:
                         dist_to[curr.value] = dist_to[curr_v] + curr.weight
                         self.edge_to[curr.value] = curr_v
-                        pq.update_or_insert([curr.value, dist_to[curr.value]])
+
+                        if with_heuristic:
+                            pq.update_or_insert([curr.value, dist_to[curr.value]
+                                                 + curr.end_weight])
+                        else:
+                            pq.update_or_insert([curr.value, dist_to[curr.value]])
 
                 curr = curr.next
 

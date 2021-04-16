@@ -65,8 +65,12 @@ def main():
     time_right_wall = time() - start
 
     start = time()
-    path_dijkstra = Paths(maze).dijkstra().path_to(maze.goal)
+    path_dijkstra = Paths(maze).dijkstra(with_heuristic=False).path_to(maze.goal)
     time_dijkstra = time() - start
+
+    start = time()
+    path_a_star = Paths(maze).dijkstra(with_heuristic=True).path_to(maze.goal)
+    time_a_star = time() - start
 
     # Print the results
     print(f"Paths from {maze.start} to {maze.goal}\n")
@@ -99,7 +103,12 @@ def main():
     print("Dijkstra")
     print(f"Path: {path_dijkstra}")
     print(f"Length: {len(path_dijkstra)}")
-    print(f"Time: {time_dijkstra} s")
+    print(f"Time: {time_dijkstra} s\n")
+
+    print("A*")
+    print(f"Path: {path_a_star}")
+    print(f"Length: {len(path_a_star)}")
+    print(f"Time: {time_a_star} s")
 
 
 if __name__ == "__main__":
