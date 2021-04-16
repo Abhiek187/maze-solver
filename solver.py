@@ -43,33 +43,33 @@ def main():
     # for v in range(maze.vertices):
     #     print(f"{v}: {maze.adj[v]}")
 
-    # Create paths from start to end
-    source = 0
-    goal = total_vs - 1
-
     # Time each method of solving the maze
     start = time()
-    path_dfs = Paths(maze, source, use_dfs=True).path_to(goal)
+    path_dfs = Paths(maze).dfs(maze.start).path_to(maze.goal)
     time_dfs = time() - start
 
     start = time()
-    path_bfs = Paths(maze, source, use_dfs=False).path_to(goal)
+    path_bfs = Paths(maze).bfs().path_to(maze.goal)
     time_bfs = time() - start
 
     start = time()
-    path_mouse = maze.random_mouse(source, goal)
+    path_mouse = maze.random_mouse()
     time_mouse = time() - start
 
     start = time()
-    path_left_wall = maze.wall_follower(source, goal, left_wall=True)
+    path_left_wall = maze.wall_follower(left_wall=True)
     time_left_wall = time() - start
 
     start = time()
-    path_right_wall = maze.wall_follower(source, goal, left_wall=False)
+    path_right_wall = maze.wall_follower(left_wall=False)
     time_right_wall = time() - start
 
+    start = time()
+    path_dijkstra = Paths(maze).dijkstra().path_to(maze.goal)
+    time_dijkstra = time() - start
+
     # Print the results
-    print(f"Paths from {source} to {goal}\n")
+    print(f"Paths from {maze.start} to {maze.goal}\n")
 
     print("DFS")
     print(f"Path: {path_dfs}")
@@ -94,7 +94,12 @@ def main():
     print("Right Wall Follower")
     print(f"Path: {path_right_wall}")
     print(f"Length: {len(path_right_wall)}")
-    print(f"Time: {time_right_wall} s")
+    print(f"Time: {time_right_wall} s\n")
+
+    print("Dijkstra")
+    print(f"Path: {path_dijkstra}")
+    print(f"Length: {len(path_dijkstra)}")
+    print(f"Time: {time_dijkstra} s")
 
 
 if __name__ == "__main__":

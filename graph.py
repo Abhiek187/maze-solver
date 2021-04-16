@@ -9,6 +9,8 @@ class Graph:
         # Initialize the adjacency list for max_v vertices
         self.adj = [LinkedList() for _ in range(max_v)]  # each linked list is a separate object
         self.points = [(-1, -1) for _ in range(max_v)]
+        self.start = 0
+        self.goal = max_v - 1
         self.vertices = max_v
         self.edges = 0
 
@@ -38,12 +40,12 @@ class Graph:
 
         return deg
 
-    def random_mouse(self, start: int, goal: int) -> List:
+    def random_mouse(self) -> List:
         # Gather a log of where the random mouse traveled
-        path = [start]
-        v = start
+        path = [self.start]
+        v = self.start
 
-        while v != goal:
+        while v != self.goal:
             # Select a random path at a junction
             rand_path = randrange(0, self.degree(v))  # random number from 0 to degree - 1
             next_node = self.adj[v].head
@@ -58,13 +60,13 @@ class Graph:
 
         return path
 
-    def wall_follower(self, start: int, goal: int, left_wall: bool) -> List:
+    def wall_follower(self, left_wall: bool) -> List:
         # Keep following either the left or right wall until the goal is reached
-        path = [start]
-        v = start
+        path = [self.start]
+        v = self.start
         curr_dir = "down"  # start by facing down at the start point
 
-        while v != goal:
+        while v != self.goal:
             """
             Left Wall:
             If facing down: prioritize right, down, left, up
